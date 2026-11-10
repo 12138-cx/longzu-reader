@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="104" fill="#1f1c19"/>
+  <circle cx="256" cy="256" r="162" fill="none" stroke="#f1e7d7" stroke-width="10"/>
+  <text x="256" y="316" text-anchor="middle" font-family="serif" font-size="210" fill="#f1e7d7">龍</text>
+  <circle cx="390" cy="126" r="38" fill="#ad493f"/>
+</svg>

@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f3eee3">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="format-detection" content="telephone=no">
+  <title>龙族 · 私人阅读室</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+  <div class="app" id="app">
+    <header class="topbar">
+      <button class="brand" id="brandButton" type="button" aria-label="返回书架">
+        <span class="brand-mark" aria-hidden="true">龍</span>
+        <span class="brand-copy">
+          <strong>龙族</strong>
+          <small>私人阅读室</small>
+        </span>
+      </button>
+
+      <div class="topbar-actions">
+        <button class="top-action" id="globalSearchButton" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg>
+          <span>全文搜索</span>
+          <kbd>Ctrl K</kbd>
+        </button>
+        <button class="icon-button" id="themeButton" type="button" aria-label="切换夜读模式" title="切换夜读模式">
+          <svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path></svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.3A8.5 8.5 0 0 1 8.7 4a8.5 8.5 0 1 0 11.3 11.3Z"></path></svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="library-view" id="libraryView">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">PRIVATE LIBRARY · 01</p>
+          <h1>在门重新打开之前，<br><em>把故事放回章节里。</em></h1>
+          <p class="hero-intro">八卷本地藏书，按章节重新整理。阅读位置、书签和显示偏好只保存在这台设备上。</p>
+          <div class="hero-stats" id="heroStats" aria-label="馆藏统计"></div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="orbit orbit-a"></div>
+          <div class="orbit orbit-b"></div>
+          <div class="sun-disc"></div>
+          <div class="dragon-line">
+            <svg viewBox="0 0 520 530">
+              <path d="M419 83c-49-39-132-39-184 7-27 24-40 57-28 82 12 25 48 30 76 15 30-16 41-51 25-74-17-25-61-30-95-9-91 55-104 201-42 291 63 91 189 104 263 38 39-35 57-88 42-129-17-45-67-66-111-46-35 16-49 55-33 84 13 23 45 32 68 19"/>
+              <path d="M290 132c-7-27 11-50 41-60M349 402c0 35-25 66-63 78M472 268c18 5 33 17 42 34M33 291c-12-8-21-19-26-32"/>
+              <circle cx="269" cy="112" r="5"></circle>
+            </svg>
+          </div>
+          <p class="hero-quote">“在你最孤单最无望的时候，<br>有一扇门会在你身边打开。”</p>
+        </div>
+      </section>
+
+      <section class="continue-panel" id="continuePanel" hidden></section>
+
+      <section class="shelf-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">COLLECTION</p>
+            <h2>全部卷册</h2>
+          </div>
+          <p>点击封面继续阅读。未读时从第一卷开始。</p>
+        </div>
+        <div class="book-grid" id="bookGrid"></div>
+      </section>
+
+      <section class="source-note" id="sourceNote">
+        <div class="source-note-title">
+          <span class="status-light" aria-hidden="true"></span>
+          <div>
+            <p class="eyebrow">SOURCE CHECK</p>
+            <h2>源文件校验</h2>
+          </div>
+        </div>
+        <p class="source-summary">目录、章节计数与文本完整性已检查。发现的问题会列在这里。</p>
+        <div class="warning-list" id="warningList"></div>
+        <p class="copyright-note">本阅读器只读取你提供的本地文本，不联网、不上传。请在合法持有文本的前提下作个人阅读使用。</p>
+      </section>
+    </main>
+
+    <section class="reader-view" id="readerView" hidden aria-label="阅读器">
+      <div class="reader-progress-line"><span id="readerProgressLine"></span></div>
+      <header class="reader-toolbar">
+        <button class="reader-book-button" id="readerBookButton" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A3.5 3.5 0 0 1 7.5 2H20v18H7.5A3.5 3.5 0 0 0 4 23V5.5Z"></path><path d="M4 19.5A3.5 3.5 0 0 1 7.5 16H20"></path></svg>
+          <span id="readerBookTitle">目录</span>
+        </button>
+        <div class="reader-tools">
+          <button class="tool-button" id="bookmarkButton" type="button" aria-label="添加书签" title="添加书签">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4.2L6 21V3Z"></path></svg>
+          </button>
+          <button class="tool-button" id="settingsButton" type="button" aria-label="阅读设置" title="阅读设置">
+            <span>Aa</span>
+          </button>
+          <button class="tool-button" id="readerSearchButton" type="button" aria-label="全文搜索" title="全文搜索">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="reader-layout">
+        <main class="chapter-shell" id="chapterShell">
+          <article class="chapter" id="chapterContent" tabindex="-1">
+            <div class="chapter-skeleton">
+              <span></span><span></span><span></span><span></span>
+            </div>
+          </article>
+
+          <nav class="chapter-nav" id="chapterNav" aria-label="章节导航">
+            <button class="chapter-nav-button previous" id="previousChapterButton" type="button">
+              <small>上一章</small>
+              <strong>正在读取目录</strong>
+            </button>
+            <button class="chapter-nav-button next" id="nextChapterButton" type="button">
+              <small>下一章</small>
+              <strong>正在读取目录</strong>
+            </button>
+          </nav>
+          <footer class="reader-footer">龙族 · 私人阅读室</footer>
+        </main>
+      </div>
+
+      <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
+      <aside class="toc-drawer" id="tocDrawer" aria-label="章节目录" aria-hidden="true">
+        <div class="drawer-head">
+          <div>
+            <p class="eyebrow">CONTENTS</p>
+            <h2>章节目录</h2>
+          </div>
+          <button class="icon-button" id="closeDrawerButton" type="button" aria-label="关闭目录">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg>
+          </button>
+        </div>
+        <label class="drawer-search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg>
+          <input id="chapterFilter" type="search" placeholder="筛选章节标题" autocomplete="off">
+        </label>
+        <div class="drawer-books" id="drawerBooks"></div>
+        <div class="chapter-list" id="chapterList"></div>
+      </aside>
+
+      <div class="settings-popover" id="settingsPopover" hidden>
+        <div class="settings-head">
+          <strong>阅读设置</strong>
+          <button class="icon-button small" id="closeSettingsButton" type="button" aria-label="关闭设置">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg>
+          </button>
+        </div>
+        <div class="setting-group">
+          <span>纸张</span>
+          <div class="segmented theme-options">
+            <button data-theme="paper" type="button">纸白</button>
+            <button data-theme="sepia" type="button">暖杏</button>
+            <button data-theme="night" type="button">夜读</button>
+          </div>
+        </div>
+        <label class="range-setting">
+          <span>字号 <output id="fontSizeOutput">20px</output></span>
+          <input id="fontSizeRange" type="range" min="17" max="28" step="1">
+        </label>
+        <label class="range-setting">
+          <span>行距 <output id="lineHeightOutput">2</output></span>
+          <input id="lineHeightRange" type="range" min="16" max="26" step="1">
+        </label>
+        <label class="range-setting">
+          <span>版心 <output id="pageWidthOutput">760px</output></span>
+          <input id="pageWidthRange" type="range" min="620" max="920" step="20">
+        </label>
+        <p class="settings-note">设置与阅读进度只保存在当前浏览器。</p>
+      </div>
+    </section>
+
+    <div class="search-modal" id="searchModal" hidden role="dialog" aria-modal="true" aria-labelledby="searchTitle">
+      <div class="search-backdrop" data-close-search></div>
+      <div class="search-panel">
+        <div class="search-head">
+          <div>
+            <p class="eyebrow">FIND IN ALL VOLUMES</p>
+            <h2 id="searchTitle">全文搜索</h2>
+          </div>
+          <button class="icon-button" id="closeSearchButton" type="button" aria-label="关闭搜索">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg>
+          </button>
+        </div>
+        <label class="search-input-wrap">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg>
+          <input id="searchInput" type="search" placeholder="输入人物、地点或句子…" autocomplete="off">
+          <span id="searchStatus">输入至少 2 个字</span>
+        </label>
+        <div class="search-results" id="searchResults"></div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <script src="data/catalog.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

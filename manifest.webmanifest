@@ -1,0 +1,19 @@
+{
+  "name": "龙族 · 私人阅读室",
+  "short_name": "龙族阅读室",
+  "description": "本地私有的龙族分章阅读器",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f3eee3",
+  "theme_color": "#1f1c19",
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
